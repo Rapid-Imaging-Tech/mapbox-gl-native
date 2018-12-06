@@ -5,9 +5,12 @@ if(MBGL_PLATFORM STREQUAL "android")
 elseif(MBGL_PLATFORM STREQUAL "ios")
     # noop
 elseif(MBGL_PLATFORM STREQUAL "linux")
-    mason_use(libuv VERSION 1.9.1)
-    mason_use(libpng VERSION 1.6.25)
-    mason_use(libjpeg-turbo VERSION 1.5.0)
+    # There are no binary packages for ARM.
+    # We will use system installed libraries. (apt-get)
+    # Compatible versions of these must be installed.
+    # mason_use(libuv VERSION 1.9.1)
+    # mason_use(libpng VERSION 1.6.25)
+    # mason_use(libjpeg-turbo VERSION 1.5.0)
     mason_use(args VERSION 6.2.0 HEADER_ONLY)
 
     if(WITH_EGL)
