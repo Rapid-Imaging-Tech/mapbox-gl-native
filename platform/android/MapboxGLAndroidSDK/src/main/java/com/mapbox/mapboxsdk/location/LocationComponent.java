@@ -393,7 +393,29 @@ public final class LocationComponent {
    * @param cameraMode one of the modes found in {@link CameraMode}
    */
   public void setCameraMode(@CameraMode.Mode int cameraMode) {
-    locationCameraController.setCameraMode(cameraMode);
+    locationCameraController.setCameraMode(cameraMode, lastLocation, null);
+    boolean isGpsNorth = cameraMode == CameraMode.TRACKING_GPS_NORTH;
+    locationAnimatorCoordinator.resetAllCameraAnimations(mapboxMap.getCameraPosition(), isGpsNorth);
+  }
+
+  /**
+   * Sets the camera mode, which determines how the map camera will track the rendered location.
+   * <p>
+   * <ul>
+   * <li>{@link CameraMode#NONE}: No camera tracking</li>
+   * <li>{@link CameraMode#NONE_COMPASS}: Camera does not track location, but does track compass bearing</li>
+   * <li>{@link CameraMode#NONE_GPS}: Camera does not track location, but does track GPS bearing</li>
+   * <li>{@link CameraMode#TRACKING}: Camera tracks the user location</li>
+   * <li>{@link CameraMode#TRACKING_COMPASS}: Camera tracks the user location, with bearing provided by a compass</li>
+   * <li>{@link CameraMode#TRACKING_GPS}: Camera tracks the user location, with normalized bearing</li>
+   * <li>{@link CameraMode#TRACKING_GPS_NORTH}: Camera tracks the user location, with bearing always set to north</li>
+   * </ul>
+   *
+   * @param cameraMode         one of the modes found in {@link CameraMode}
+   * @param transitionListener callback that's going to be invoked when the transition finishes
+   */
+  public void setCameraMode(@CameraMode.Mode int cameraMode, OnLocationCameraTransitionListener transitionListener) {
+    locationCameraController.setCameraMode(cameraMode, lastLocation, transitionListener);
     boolean isGpsNorth = cameraMode == CameraMode.TRACKING_GPS_NORTH;
     locationAnimatorCoordinator.resetAllCameraAnimations(mapboxMap.getCameraPosition(), isGpsNorth);
   }
