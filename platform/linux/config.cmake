@@ -15,9 +15,7 @@ target_link_libraries(mbgl-loop-uv
     PRIVATE mbgl-core
 )
 
-# use installed libraries instead of mason packages, which don't exist for ARM.
-#target_add_mason_package(mbgl-loop-uv PUBLIC libuv)
-target_link_libraries(mbgl-loop-uv PUBLIC -luv)
+target_add_mason_package(mbgl-loop-uv PUBLIC libuv)
 
 macro(mbgl_platform_core)
     if(WITH_OSMESA)
@@ -83,11 +81,8 @@ macro(mbgl_platform_core)
         PRIVATE platform/linux
     )
 
-    # use installed libraries instead of mason packages, which don't exist for ARM.
-    #target_add_mason_package(mbgl-core PUBLIC libpng)
-    #target_add_mason_package(mbgl-core PUBLIC libjpeg-turbo)
-    target_link_libraries(mbgl-core PUBLIC -lpng)
-    target_link_libraries(mbgl-core PUBLIC -ljpeg)
+    target_add_mason_package(mbgl-core PUBLIC libpng)
+    target_add_mason_package(mbgl-core PUBLIC libjpeg-turbo)
 
     target_link_libraries(mbgl-core
         PRIVATE nunicode
